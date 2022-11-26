@@ -1,28 +1,74 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="header" @click="goHome">
+      <div class="massage">
+        <img
+          src="https://www.datacanvas.com/img/icon/logo.svg?v2"
+          alt=""
+          class="logo"
+        />
+        <span class="info">
+          <h1 class="title">计算机视觉开发平台</h1>
+          <span class="simple">精选多个应用场景，助您应用快速起步</span>
+        </span>
+      </div>
+    </div>
+    <div class="main">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+  },
+  methods: {
+    goHome () {
+      this.$router.push("/")
+    }
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  height: 100vh;
+  .header {
+    background: #171717;
+    // margin-bottom: 30px;
+  }
+  .massage {
+    display: flex;
+    align-items: center;
+    height: 120px;
+    width: 1200px;
+    margin: 0 auto;
+    color: white;
+    .logo {
+      width: 240px;
+      height: 68px;
+    }
+    .info {
+      margin-left: 50px;
+      .simple {
+        font-size: 20px;
+      }
+    }
+  }
+  .main {
+    height: calc(100% - 120px);
+    width: 1200px;
+    margin: 0 auto;
+    padding-top: 20px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>
