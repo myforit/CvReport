@@ -134,6 +134,27 @@ export default {
       return this.fileName !== ""
     }
   },
+  created () {
+    var FormData = require('form-data')
+    var data = new FormData()
+    data.append('a', 'get18')
+    data.append('system', 'android')
+    var config = {
+      method: 'post',
+      url: '/caoliu',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data: data
+    }
+    this.$axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data))
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  },
   methods: {
     selectFile () {
       console.log("选择文件")
@@ -151,7 +172,7 @@ export default {
     },
     startTrain () {
       console.log('开始训练')
-      if (this.progressValue === 0) {
+      if (!this.progressValue) {
         this.timer = setInterval(() => {
           this.progressValue += 1
           if (this.progressValue >= 100) {
@@ -165,10 +186,10 @@ export default {
       if (e.target.files[0].size > 500 * 1024 * 1024) { // 限制文件上传大小
         ElMessage.error('上传单个文件大小不能超过 500M!')
       } else {
-        // state.ruleForm.documentFile = e.target.files[0]  // 文件赋值
         if (e.target.files.length > 0) {
           this.placeFile = ""
-          this.progressValue = null
+          this.progressValue = 0
+          this.timer = null
           console.log('得到的文件是----', e.target.files)
           this.fileName = e.target.files[0].name
         }
