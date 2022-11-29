@@ -8,13 +8,13 @@ module.exports = defineConfig({
       port: 8080,
       proxy: {
         //跨域代理
-        '/caoliu': {
-          target: 'https://get.xunfs.com/app/listapp.php', //这是我自己的接口，你们可以用来测试
+        '/tupian': {
+          target: 'http://172.20.1.181:9900/metacv/model/video_feed',
           ws: true,
           secure: false,
           changeOrigin: true, //是否开启跨域
           pathRewrite: {
-            '^/caoliu': '', //让路径以/api开头的字段为空
+            '^/tupian': '', //让路径以/api开头的字段为空
           },
         },
       },
