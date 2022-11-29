@@ -14,10 +14,16 @@
           <el-button type="primary">上传数据集</el-button>
         </template>
       </el-input>
-      <div class="file-tag" v-if="hasFile">
+      <div
+        class="file-tag"
+        v-if="hasFile"
+      >
         <span class="el-tag el-tag--info el-tag--small el-tag--light">
           <span class="el-select__tags-text">{{ fileName }}</span>
-          <i class="el-tag__close el-icon-close" @click="delFile"></i>
+          <i
+            class="el-tag__close el-icon-close"
+            @click="delFile"
+          ></i>
         </span>
       </div>
     </div>
@@ -35,7 +41,10 @@
       @change="handleChange"
       class="high-model"
     >
-      <el-collapse-item title="高级模式" name="1">
+      <el-collapse-item
+        title="高级模式"
+        name="1"
+      >
         <el-form
           ref="form"
           :model="sizeForm"
@@ -45,20 +54,32 @@
         >
           <div class="inline">
             <el-form-item label="总的Epoch数量">
-              <el-input v-model="sizeForm.epoch"></el-input>
+              <el-input
+                v-model="sizeForm.epoch"
+                placeholder="请输入总的Epoch数量"
+              ></el-input>
             </el-form-item>
             <el-form-item label="非极大值抑制域值">
-              <el-input v-model="sizeForm.epoch"></el-input>
+              <el-input
+                v-model="sizeForm.max"
+                placeholder="请输入非极大值抑制域值"
+              ></el-input>
             </el-form-item>
           </div>
           <div class="inline">
             <el-form-item label="使用CPU数量">
-              <el-input v-model="sizeForm.epoch"></el-input>
+              <el-input
+                v-model="sizeForm.cpu"
+                placeholder="请输入使用CPU数量"
+              ></el-input>
             </el-form-item>
             <el-form-item label="优化器">
-              <el-select v-model="value" placeholder="请选择">
+              <el-select
+                v-model="sizeForm.youhua"
+                placeholder="请选择优化器"
+              >
                 <el-option
-                  v-for="item in options"
+                  v-for="item in youhua"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -69,9 +90,12 @@
           </div>
           <div class="inline">
             <el-form-item label="学习率衰减策略">
-              <el-select v-model="value" placeholder="请选择">
+              <el-select
+                v-model="sizeForm.rute"
+                placeholder="请选择学习率衰减策略"
+              >
                 <el-option
-                  v-for="item in options"
+                  v-for="item in studyRute"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -80,7 +104,10 @@
               </el-select>
             </el-form-item>
             <el-form-item label="初始学习率">
-              <el-input v-model="sizeForm.epoch"></el-input>
+              <el-input
+                v-model="sizeForm.init"
+                placeholder="请输入初始学习率"
+              ></el-input>
             </el-form-item>
           </div>
         </el-form>
@@ -88,12 +115,19 @@
     </el-collapse>
     <!-- 开始训练 -->
     <div class="start">
-      <el-button type="primary" @click="startTrain" class="start-btn">
+      <el-button
+        type="primary"
+        @click="startTrain"
+        class="start-btn"
+      >
         开始训练
       </el-button>
     </div>
     <!-- 进度条 -->
-    <div class="progress" v-if="timer">
+    <div
+      class="progress"
+      v-if="timer"
+    >
       <el-progress
         :text-inside="true"
         :stroke-width="26"
@@ -106,71 +140,75 @@
 
 <script>
 export default {
-  name: "Train",
-  data () {
+  name: 'train-cv',
+  data() {
     return {
-      input2: "",
+      input2: '',
       activeNames: [''],
       sizeForm: {
         epoch: '',
-        max: ''
+        max: '',
+        cpu: '',
+        youhua: '',
+        rute: '',
+        init: ''
       },
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }],
+      youhua: [
+        {
+          value: 'Sad',
+          label: 'Sad'
+        },
+        {
+          value: 'Adam',
+          label: 'Adam'
+        },
+        {
+          value: 'Adagrad',
+          label: 'Adagrad'
+        }
+      ],
+      studyRute: [
+        {
+          value: 'Step_LR',
+          label: 'Step_LR'
+        },
+        {
+          value: 'Cosine_decay',
+          label: 'Cosine_decay'
+        },
+        {
+          value: 'Exponential_decay',
+          label: 'Exponential_decay'
+        }
+      ],
       value: '',
-      placeFile: "请上传数据集",
-      fileName: "",
+      placeFile: '请上传数据集',
+      fileName: '',
       progressValue: 0,
       timer: null
     }
   },
   computed: {
-    hasFile () {
-      return this.fileName !== ""
+    hasFile() {
+      return this.fileName !== ''
     }
-  },
-  created () {
-    var FormData = require('form-data')
-    var data = new FormData()
-    data.append('a', 'get18')
-    data.append('system', 'android')
-    var config = {
-      method: 'post',
-      url: '/caoliu',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      data: data
-    }
-    this.$axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data))
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
   },
   methods: {
-    selectFile () {
-      console.log("选择文件")
+    selectFile() {
+      console.log('选择文件')
       this.$refs.file.click()
     },
-    delFile () {
-      this.fileName = ""
-      this.placeFile = "请上传数据集"
+    delFile() {
+      this.fileName = ''
+      this.placeFile = '请上传数据集'
     },
-    handleChange (val) {
+    handleChange(val) {
       console.log(val)
     },
-    onSubmit () {
+    onSubmit() {
       console.log('submit!')
     },
-    startTrain () {
+    startTrain() {
       console.log('开始训练')
       if (!this.progressValue) {
         this.timer = setInterval(() => {
@@ -181,13 +219,14 @@ export default {
         }, 100)
       }
     },
-    uploadData (e) {
-      var e = window.event || e  // change事件获取到的数据
-      if (e.target.files[0].size > 500 * 1024 * 1024) { // 限制文件上传大小
-        ElMessage.error('上传单个文件大小不能超过 500M!')
+    uploadData(e) {
+      // var e = window.event || e // change事件获取到的数据
+      if (e.target.files[0].size > 500 * 1024 * 1024) {
+        // 限制文件上传大小
+        console.log('文件上传不能大于500M')
       } else {
         if (e.target.files.length > 0) {
-          this.placeFile = ""
+          this.placeFile = ''
           this.progressValue = 0
           this.timer = null
           console.log('得到的文件是----', e.target.files)
@@ -201,6 +240,7 @@ export default {
 
 <style lang="scss" scoped>
 .train-box {
+  width: 90%;
   /deep/ .el-input-group__append {
     color: #fff;
     background-color: #409eff;

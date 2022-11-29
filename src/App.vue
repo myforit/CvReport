@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <div class="header" @click="goHome">
+    <div
+      class="header"
+      @click="goHome"
+    >
       <div class="massage">
         <img
           src="https://www.datacanvas.com/img/icon/logo.svg?v2"
@@ -20,14 +23,14 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
-  components: {
-  },
+  components: {},
   methods: {
-    goHome () {
-      this.$router.push("/")
+    goHome() {
+      this.$router.push('/').catch((err) => {
+        return err
+      })
     }
   }
 }
@@ -36,9 +39,10 @@ export default {
 <style lang="scss" scoped>
 #app {
   height: 100vh;
+  background: #efefef;
   .header {
     background: #171717;
-    // margin-bottom: 30px;
+    padding-left: 10px;
   }
   .massage {
     display: flex;

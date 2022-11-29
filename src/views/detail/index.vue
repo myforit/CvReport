@@ -1,14 +1,30 @@
 <template>
-  <div>
+  <div class="detail">
     <div class="scene-title">
-      <img :src="require('@/assets/1.png')" alt="" class="scene-icon" />
-      <h2>训练页面</h2>
+      <img
+        :src="require('@/assets/1.png')"
+        alt=""
+        class="scene-icon"
+      />
+      <h2>手机检测</h2>
     </div>
-    <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
-      <el-tab-pane label="训练" name="first">
+    <el-tabs
+      v-model="activeName"
+      @tab-click="handleClick"
+      type="border-card"
+    >
+      <el-tab-pane
+        label="训练"
+        name="first"
+        class="tab-pannel"
+      >
         <Train></Train>
       </el-tab-pane>
-      <el-tab-pane label="推理" name="second">
+      <el-tab-pane
+        label="推理"
+        name="second"
+        class="tab-pannel"
+      >
         <Reasoning></Reasoning>
       </el-tab-pane>
     </el-tabs>
@@ -16,22 +32,22 @@
 </template>
 
 <script>
-import Train from "./train/train.vue"
-import Reasoning from "./reasoning/reasoning.vue"
+import Train from './train/train.vue'
+import Reasoning from './reasoning/reasoning.vue'
 
 export default {
-  name: "Detail",
+  name: 'detail-cv',
   components: {
     Train,
     Reasoning
   },
-  data () {
+  data() {
     return {
-      activeName: 'second'
+      activeName: 'first'
     }
   },
   methods: {
-    handleClick (tab, event) {
+    handleClick(tab, event) {
       console.log(tab, event)
     }
   }
@@ -39,6 +55,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.detail {
+  padding-left: 10px;
+}
 .scene-title {
   display: flex;
   margin-bottom: 20px;
@@ -49,11 +68,15 @@ export default {
   }
 }
 
+.tab-pannel {
+  height: 100%;
+}
+
 /deep/ .el-tabs__item {
   font-size: 18px !important;
 }
 
 /deep/ .el-tabs__content {
-  height: calc(100vh - 300px);
+  height: calc(100vh - 240px);
 }
 </style>

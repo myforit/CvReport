@@ -1,8 +1,15 @@
 <template>
   <div class="pannel">
     <div class="title">{{ checkItme.title }}</div>
-    <div class="body" @click="goTo(checkItme.target)">
-      <img :src="checkItme.img" alt="" class="pre-img" />
+    <div
+      class="body"
+      @click="goTo(checkItme.target)"
+    >
+      <img
+        :src="checkItme.img"
+        alt=""
+        class="pre-img"
+      />
       <div class="mask">
         <h3>{{ checkItme.info }}</h3>
       </div>
@@ -12,24 +19,24 @@
 
 <script>
 export default {
-  name: "Pannel",
+  name: 'pannel-cv',
   props: {
     checkItme: {
       type: Object,
       default: () => {
         return {
-          title: "面板标题",
-          img: "https://www.datacanvas.com/img/news/1160-0.jpg",
-          info: "简介",
-          target: "https://www.baidu.com/"
+          title: '面板标题',
+          img: 'https://www.datacanvas.com/img/news/1160-0.jpg',
+          info: '简介',
+          target: 'https://www.baidu.com/'
         }
       }
     }
   },
   methods: {
-    goTo (target) {
+    goTo(target) {
       console.log('选项被点击了---', target)
-      this.$router.push("/detail")
+      this.$router.push('/detail')
       //   window.location.href = target
     }
   }
@@ -64,8 +71,8 @@ export default {
       width: 100%;
       height: 100%;
       padding: 20px;
-      //   background: rgba(151, 151, 151, 0.7);
-      //   box-shadow: 0px 0px 20px #888888;
+      background: rgba(151, 151, 151, 0.7);
+      box-shadow: 0px 0px 10px #888888;
       color: #ffffff;
       cursor: pointer;
       opacity: 0;
