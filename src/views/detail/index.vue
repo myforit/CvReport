@@ -57,6 +57,7 @@ export default {
 <style lang="scss" scoped>
 .detail {
   padding-left: 10px;
+  min-height: 600px;
 }
 .scene-title {
   display: flex;
@@ -77,6 +78,6 @@ export default {
 }
 
 /deep/ .el-tabs__content {
-  height: calc(100vh - 240px);
+  min-height: 500px;
 }
 </style>

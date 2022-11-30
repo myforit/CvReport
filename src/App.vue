@@ -38,17 +38,18 @@ export default {
 
 <style lang="scss" scoped>
 #app {
-  height: 100vh;
-  background: #efefef;
+  height: 100%;
+  // position: relative;
+  // overflow: hidden;
   .header {
     background: #171717;
     padding-left: 10px;
+    padding: 0px 15.5%;
   }
   .massage {
     display: flex;
     align-items: center;
     height: 120px;
-    width: 1200px;
     margin: 0 auto;
     color: white;
     .logo {
@@ -63,14 +64,22 @@ export default {
     }
   }
   .main {
-    height: calc(100% - 120px);
-    width: 1200px;
+    // height: calc(100% - 120px);
+    min-height: 100%;
     margin: 0 auto;
     padding-top: 20px;
-    overflow-y: auto;
-    // overflow: scroll;
-    // -ms-overflow-style: none;
-    // scrollbar-width: none;
+    padding: 20px 15%;
+    background: #efefef;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    // position: absolute;
+    // left: 0;
+    // top: 120px;
+    // right: -17px;
+    // bottom: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
   }
   ::-webkit-scrollbar {
     display: none;

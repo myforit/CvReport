@@ -1,7 +1,7 @@
 <template>
   <div class="train-box">
     <div class="file-box">
-      <el-input
+      <!-- <el-input
         :placeholder="placeFile"
         v-model="input2"
         clearable
@@ -13,7 +13,20 @@
         <template slot="append">
           <el-button type="primary">上传数据集</el-button>
         </template>
-      </el-input>
+      </el-input> -->
+      <el-select
+        v-model="input2"
+        class="file-input"
+        placeholder="请选择数据集"
+      >
+        <el-option
+          v-for="item in youhua"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
       <div
         class="file-tag"
         v-if="hasFile"
@@ -67,10 +80,10 @@
             </el-form-item>
           </div>
           <div class="inline">
-            <el-form-item label="使用CPU数量">
+            <el-form-item label="使用GPU数量">
               <el-input
                 v-model="sizeForm.cpu"
-                placeholder="请输入使用CPU数量"
+                placeholder="请输入使用GPU数量"
               ></el-input>
             </el-form-item>
             <el-form-item label="优化器">
@@ -212,11 +225,12 @@ export default {
       console.log('开始训练')
       if (!this.progressValue) {
         this.timer = setInterval(() => {
-          this.progressValue += 1
+          let progressValue = this.progressValue + 0.01
+          this.progressValue = +progressValue.toFixed(2)
           if (this.progressValue >= 100) {
             clearInterval(this.timer)
           }
-        }, 100)
+        }, 1000)
       }
     },
     uploadData(e) {
@@ -260,7 +274,8 @@ export default {
     left: 8px;
   }
   .file-input {
-    cursor: pointer;
+    // cursor: pointer;
+    width: 100%;
   }
   /deep/ .el-input__inner {
     cursor: pointer;
@@ -277,9 +292,6 @@ export default {
       border-color: #66b1ff;
       color: #fff;
     }
-  }
-  /deep/.el-progress {
-    height: 0px !important;
   }
   .high-model {
     margin-top: 20px;

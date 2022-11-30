@@ -33,8 +33,7 @@ export default {
   methods: {
     goTo(target) {
       console.log('选项被点击了---', target)
-      this.$router.push('/detail')
-      //   window.location.href = target
+      target && this.$router.push(target)
     }
   }
 }
@@ -46,9 +45,11 @@ export default {
   margin-left: 10px;
   margin-right: 20px;
   background-color: #ffffff;
+  overflow: hidden;
   .pre-img {
+    display: inline-block;
     width: 100%;
-    height: 220px;
+    height: 180px;
   }
   .title {
     margin-top: 20px;

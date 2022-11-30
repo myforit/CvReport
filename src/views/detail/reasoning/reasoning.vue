@@ -1,6 +1,6 @@
 <template>
   <div class="reason-box">
-    <h3 class="run">您正在使用xxx.pth进行推理</h3>
+    <h3 class="run">您正在使用tensorRT进行推理</h3>
     <div class="file-box">
       <el-row>
         <el-col :span="19">
@@ -139,23 +139,22 @@ export default {
         target = e.target.parentNode
       }
       target.blur()
-      // if (this.fileName === '') {
-      //   return
-      // }
+      if (this.fileName === '') {
+        this.$message.error('请先上传视频')
+        return
+      }
       this.imgSrc = 'http://172.20.1.181:9900/metacv/model/video_feed'
-      // setTimeout(() => {
-      //   this.showRes = true
-      // }, 1000);
+      this.showRes = true
       this.startFlag = true
     },
     successLoad() {
       console.log('图片加载成功')
       this.showRes = true
-      // this.resBackImg = {}
+      this.resBackImg = {}
     },
     errorLoad() {
       console.log('图片加载失败')
-      // this.resBackImg = {}
+      this.resBackImg = {}
     }
   }
 }
@@ -196,9 +195,9 @@ export default {
   }
   .wraper {
     width: 100%;
-    height: 91%;
-    padding: 10px 0 10px 0;
-    background-image: url('https://img-blog.csdnimg.cn/img_convert/63ea90b2b970640722c2caf66d18cb5f.jpeg');
+    min-height: 500px;
+    padding: 10px 0 0px 0;
+    // background-image: url('https://img-blog.csdnimg.cn/img_convert/63ea90b2b970640722c2caf66d18cb5f.jpeg');
     background-size: 680px 400px;
     background-repeat: no-repeat;
     background-position: center;
