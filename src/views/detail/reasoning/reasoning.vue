@@ -60,6 +60,7 @@
       <el-image
         :src="imgSrc"
         alt=""
+        v-show="showRes"
         @load="successLoad"
         @error="errorLoad"
         class="reas"
@@ -88,6 +89,7 @@ export default {
       placeFile: '请上传视频',
       fileName: '',
       startFlag: false,
+      showRes: false,
       imgSrc: '',
       imgFlow: 'http://172.20.1.181:9900/metacv/model/video_feed',
       resBackImg: {
@@ -140,13 +142,15 @@ export default {
       // if (this.fileName === '') {
       //   return
       // }
-      // this.imgSrc = 'http://172.20.1.181:9900/metacv/model/video_feed'
-      this.imgSrc =
-        'https://img-blog.csdnimg.cn/img_convert/796383acfdf095c3869dae48d1c10298.gif'
+      this.imgSrc = 'http://172.20.1.181:9900/metacv/model/video_feed'
+      // setTimeout(() => {
+      //   this.showRes = true
+      // }, 1000);
       this.startFlag = true
     },
     successLoad() {
       console.log('图片加载成功')
+      this.showRes = true
       // this.resBackImg = {}
     },
     errorLoad() {
@@ -194,21 +198,20 @@ export default {
     width: 100%;
     height: 91%;
     padding: 10px 0 10px 0;
-    // background-image: url('https://img-blog.csdnimg.cn/img_convert/63ea90b2b970640722c2caf66d18cb5f.jpeg');
+    background-image: url('https://img-blog.csdnimg.cn/img_convert/63ea90b2b970640722c2caf66d18cb5f.jpeg');
     background-size: 680px 400px;
     background-repeat: no-repeat;
     background-position: center;
     .reas {
       margin-top: 5px;
-      width: 100%;
+      // width: 100%;
       height: 96%;
     }
-    .error-img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      // background-color: pink;
-    }
+    // .error-img {
+    //   width: 100%;
+    //   height: 100%;
+    //   display: block;
+    // }
   }
 }
 </style>

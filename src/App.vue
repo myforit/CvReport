@@ -67,9 +67,10 @@ export default {
     width: 1200px;
     margin: 0 auto;
     padding-top: 20px;
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    overflow-y: auto;
+    // overflow: scroll;
+    // -ms-overflow-style: none;
+    // scrollbar-width: none;
   }
   ::-webkit-scrollbar {
     display: none;
