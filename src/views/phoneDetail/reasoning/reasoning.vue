@@ -47,7 +47,6 @@
       ref="file"
       type="file"
       style="display: none"
-      accept=".rar, .zip, .7z"
       @change="uploadData"
     />
     <!-- 推理结果展示 -->
@@ -139,10 +138,10 @@ export default {
         target = e.target.parentNode
       }
       target.blur()
-      if (this.fileName === '') {
-        this.$message.error('请先上传视频')
-        return
-      }
+      // if (this.fileName === '') {
+      //   this.$message.error('请先上传视频')
+      //   return
+      // }
       this.imgSrc = 'http://172.20.1.181:9900/metacv/model/video_feed'
       this.showRes = true
       this.startFlag = true

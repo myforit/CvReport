@@ -1,13 +1,15 @@
 import Router from 'vue-router'
 import Vue from 'vue'
 import Home from '@/views/home'
-import Detail from '@/views/detail'
+import PhoneDetail from '@/views/phoneDetail'
+import TextDetail from '@/views/textDetail'
 
 Vue.use(Router)
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/detail', component: Detail },
+  { path: '/detail', component: PhoneDetail },
+  { path: '/textocr', component: TextDetail },
 ]
 
 const router = new Router({

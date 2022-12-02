@@ -14,6 +14,42 @@ export default {
     return {
       sceneList: [
         {
+          title: '通用场景',
+          icon: require('../../assets/com_icon.png'),
+          checks: [
+            {
+              title: '文字识别',
+              img: require('../../assets/com_text.png'),
+              info: '识别图片中的文字信息，结构化输出关键字段内容，适合个性化卡证票据识别等场景',
+              target: '/textocr'
+            },
+            {
+              title: '图像分类',
+              img: require('../../assets/com_cate.png'),
+              info: '识别一张图中是否是某类物体、状态、场景，适合图片中主体或者状态单一场景',
+              target: ''
+            },
+            {
+              title: '目标检测',
+              img: require('../../assets/com_thing.png'),
+              info: '识别图中每个物体的位置、名称、适合有多个主体、或者识别位置及数量的场景',
+              target: ''
+            },
+            {
+              title: '图像分割',
+              img: require('../../assets/com_split.png'),
+              info: '识别一张图像中物体的轮廓（像素级），适合需要物体的侵染率，损失率等场景',
+              target: ''
+            },
+            {
+              title: '目标跟踪',
+              img: require('../../assets/com_target.png'),
+              info: '跟踪特定场景中感兴趣的一个或多个特定对象，适用于研究特定人或者物体运动状态的场景',
+              target: ''
+            }
+          ]
+        },
+        {
           title: '工况场景',
           icon: require('@/assets/1.png'),
           checks: [
@@ -102,7 +138,7 @@ export default {
           icon: require('../../assets/4.png'),
           checks: [
             {
-              title: '手机缺陷分割',
+              title: '手机屏幕缺陷分割',
               img: require('../../assets/shoujiquexian.jpg'),
               info: '在手机屏幕工业化生产过程中，缺陷的检出直接影响其合格率。通过分割手机屏幕表面的油污、孔洞和划痕，协助手机屏幕出厂品质控制',
               target: ''
@@ -120,7 +156,7 @@ export default {
           icon: require('../../assets/5.png'),
           checks: [
             {
-              title: '肺结核分割',
+              title: '肺结节分割',
               img: require('../../assets/feijiejie.jpg'),
               info: '肺结节指肺部影像上各种大小、边缘清楚或模糊、直径小于等于3cm的局灶性圆形致密影。通过分割出肺内有肺结节的区域，协助医生进行肺部诊断',
               target: ''

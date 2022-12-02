@@ -46,13 +46,14 @@ export default {
   margin-right: 20px;
   background-color: #ffffff;
   overflow: hidden;
+  cursor: pointer;
   .pre-img {
     display: inline-block;
     width: 100%;
     height: 180px;
   }
   .title {
-    margin-top: 20px;
+    margin-top: 15px;
   }
   .info {
     margin-top: 10px;

@@ -79,10 +79,10 @@ export default {
     // right: -17px;
     // bottom: 0;
     overflow-x: hidden;
-    overflow-y: scroll;
+    // overflow-y: scroll;
   }
-  ::-webkit-scrollbar {
-    display: none;
-  }
+  // ::-webkit-scrollbar {
+  //   display: none;
+  // }
 }
 </style>

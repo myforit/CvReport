@@ -1,32 +1,27 @@
 <template>
   <div class="train-box">
     <div class="file-box">
-      <!-- <el-input
-        :placeholder="placeFile"
-        v-model="input2"
-        clearable
-        readonly
-        class="file-input"
-        ref="fileInput"
-        @click.native="selectFile"
-      >
-        <template slot="append">
-          <el-button type="primary">上传数据集</el-button>
-        </template>
-      </el-input> -->
+      <span class="file-lable">请选择数据集</span>
       <el-select
         v-model="input2"
         class="file-input"
         placeholder="请选择数据集"
       >
         <el-option
-          v-for="item in youhua"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          v-for="item in datasets"
+          :key="item"
+          :label="item"
+          :value="item"
         >
         </el-option>
       </el-select>
+      <el-button
+        type="primary"
+        @click="startTrain"
+        class="start-btn"
+      >
+        开始训练
+      </el-button>
       <div
         class="file-tag"
         v-if="hasFile"
@@ -39,6 +34,12 @@
           ></i>
         </span>
       </div>
+    </div>
+    <div
+      v-if="input2"
+      class="dataset-info"
+    >
+      至此，我们就完成了在Docker中运行Python程序的小案例。当然这也只是入门环节，更复杂的场景，会在后续为大家分享。还请小伙伴们多多支持呀！如果有任何的问题，可给私信给小编。
     </div>
     <!-- 隐藏的文件选择 -->
     <input
@@ -127,7 +128,7 @@
       </el-collapse-item>
     </el-collapse>
     <!-- 开始训练 -->
-    <div class="start">
+    <!-- <div class="start">
       <el-button
         type="primary"
         @click="startTrain"
@@ -135,12 +136,13 @@
       >
         开始训练
       </el-button>
-    </div>
+    </div> -->
     <!-- 进度条 -->
     <div
       class="progress"
       v-if="timer"
     >
+      <span class="log-title">训练进度：</span>
       <el-progress
         :text-inside="true"
         :stroke-width="26"
@@ -148,16 +150,28 @@
         :percentage="progressValue"
       ></el-progress>
     </div>
+    <!-- 日志输出框 -->
+    <div v-show="timer">
+      <span class="log-title">日志输出：</span>
+      <div
+        class="log-box"
+        id="logBox"
+      >
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { fileToBlob } from '../../../utils/index'
+
 export default {
   name: 'train-cv',
   data() {
     return {
       input2: '',
       activeNames: [''],
+      datasets: [],
       sizeForm: {
         epoch: '',
         max: '',
@@ -206,6 +220,11 @@ export default {
       return this.fileName !== ''
     }
   },
+  async created() {
+    const res = await this.$axios.get('/dataset')
+    console.log('res----', res.data.data)
+    this.datasets = res.data.data
+  },
   methods: {
     selectFile() {
       console.log('选择文件')
@@ -232,6 +251,7 @@ export default {
           }
         }, 1000)
       }
+      this.readLog()
     },
     uploadData(e) {
       // var e = window.event || e // change事件获取到的数据
@@ -247,6 +267,31 @@ export default {
           this.fileName = e.target.files[0].name
         }
       }
+    },
+    async readLog() {
+      const logBox = document.getElementById('logBox')
+      console.log('开始读取日志内容--', logBox)
+      const res = await fileToBlob('./train.txt')
+      const logList = res.split('\n')
+      for (let index = 0; index < logList.length; index++) {
+        // 滚动到盒子底部
+        if (logBox.scrollHeight > logBox.clientHeight) {
+          setTimeout(() => {
+            logBox.scrollTop = logBox.scrollHeight
+          }, 0)
+        }
+        const logStr = await this.sleepFun(logList[index])
+        const subDiv = document.createElement('div')
+        subDiv.innerText = logStr
+        logBox.append(subDiv)
+      }
+    },
+    sleepFun(logStr) {
+      return new Promise((res) => {
+        return setTimeout(() => {
+          res(logStr)
+        }, 1000)
+      })
     }
   }
 }
@@ -267,6 +312,13 @@ export default {
   }
   .file-box {
     position: relative;
+    display: flex;
+    align-items: center;
+    .file-lable {
+      font-size: 16px;
+      margin-right: 10px;
+      min-width: 100px;
+    }
   }
   .file-tag {
     position: absolute;
@@ -275,8 +327,19 @@ export default {
   }
   .file-input {
     // cursor: pointer;
-    width: 100%;
+    width: 80%;
+    margin-right: 10px;
   }
+
+  .dataset-info {
+    padding: 10px;
+    height: 60px;
+    margin-top: 5px;
+    margin-right: 10px;
+    color: #a0a0a0;
+    border: 1px solid #bbb;
+  }
+
   /deep/ .el-input__inner {
     cursor: pointer;
   }
@@ -313,6 +376,33 @@ export default {
         }
       }
     }
+  }
+
+  .progress {
+    margin: 15px 0px 6px 0px;
+  }
+
+  .log-title {
+    display: block;
+    font-size: 16px;
+    margin: 15px 0px 6px 0px;
+  }
+
+  .log-box {
+    width: 100%;
+    height: 500px;
+    color: #fff;
+    padding: 10px;
+    overflow-y: hidden;
+    border-radius: 5px;
+    background-color: #000;
+  }
+  .log-box::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+  }
+  .log-box::-webkit-scrollbar-track {
+    border-radius: unset;
+    background: #000;
   }
 }
 </style>

@@ -78,6 +78,6 @@ export default {
 }
 
 /deep/ .el-tabs__content {
-  min-height: 500px;
+  min-height: 700px;
 }
 </style>
