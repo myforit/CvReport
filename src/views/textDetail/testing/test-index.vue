@@ -93,7 +93,10 @@
         :percentage="progressValue"
       ></el-progress>
     </div>
-    <div class="result">
+    <div
+      class="result"
+      v-if="showResult"
+    >
       <span class="log-title">测试结果：</span>
       <div class="result-box">
         <div>char_recall(召回率)：0.9417</div>
@@ -103,7 +106,10 @@
         <div>word_acc_ignore_case_symbol(忽略大小写及符号的匹配模式):0.7325</div>
       </div>
     </div>
-    <div class="img-list">
+    <div
+      class="img-list"
+      v-if="showResult"
+    >
       <span class="log-title">图例：</span>
       <div class="img-split">
         <div class="img-left">
@@ -120,7 +126,15 @@
         </div>
         <div class="img-right">
           <span class="log-title">Bad Case</span>
-          <div class="img-box"></div>
+          <div class="img-box">
+            <img
+              v-for="(item, index) in badImgs"
+              :key="index"
+              :src="item.img"
+              alt=""
+              class="img-item"
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -148,29 +162,38 @@ export default {
       gpus: [''],
       timer: '',
       progressValue: 0,
-      goodImgs: []
+      goodImgs: [],
+      badImgs: [],
+      showResult: false
     }
   },
   created() {
-    const imgList = require.context('../../../assets/goodcase', true, /.*/)
-    const goodImgs = imgList.keys().map((item) => {
-      // console.log('item-----', item.substr(1))
+    const goodimgList = require.context('../../../assets/goodcase', true, /.*/)
+    const goodImgs = goodimgList.keys().map((item) => {
       return { img: require('../../../assets/goodcase' + item.substr(1)) }
     })
     console.log('goodImgs-----', goodImgs)
     this.goodImgs = goodImgs
+    const badimgList = require.context('../../../assets/badcase', true, /.*/)
+    const badImgs = badimgList.keys().map((item) => {
+      return { img: require('../../../assets/badcase' + item.substr(1)) }
+    })
+    console.log('badImgs-----', badImgs)
+    this.badImgs = badImgs
   },
   methods: {
     startTest() {
       console.log('开始测试')
       if (!this.progressValue) {
         this.timer = setInterval(() => {
-          let progressValue = this.progressValue + 0.01
+          let progressValue = this.progressValue + 1
           this.progressValue = +progressValue.toFixed(2)
           if (this.progressValue >= 100) {
+            // 展示结果
+            this.showResult = true
             clearInterval(this.timer)
           }
-        }, 1000)
+        }, 100)
       }
     }
   }
@@ -224,6 +247,7 @@ export default {
       height: 500px;
       border: 2px solid #000;
       padding: 10px;
+      background-color: #000;
       .img-item {
         width: 100%;
         border: 1px solid #ccc;
