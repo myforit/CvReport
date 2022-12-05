@@ -43,7 +43,7 @@ deploy-staging:dep:
         - master
     script:
         - echo "=====start build======"
-        - yarn build # 将项目打包
+        - sudo npm run build # 将项目打包
         - echo "=====end build======"
         - echo "=====start deploy======"
         - sudo cp -rf ./dist/  /var/www/html/
