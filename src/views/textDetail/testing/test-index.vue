@@ -10,10 +10,7 @@
       >
         <div class="inline">
           <el-form-item label="任务名称">
-            <el-select
-              v-model="sizeForm.youhua"
-              placeholder="请选择任务名称"
-            >
+            <el-select v-model="sizeForm.youhua" placeholder="请选择任务名称">
               <el-option
                 v-for="item in taskNames"
                 :key="item.value"
@@ -24,10 +21,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="版本号">
-            <el-select
-              v-model="sizeForm.youhua"
-              placeholder="请选择版本号"
-            >
+            <el-select v-model="sizeForm.youhua" placeholder="请选择版本号">
               <el-option
                 v-for="item in versions"
                 :key="item.value"
@@ -40,10 +34,7 @@
         </div>
         <div class="inline">
           <el-form-item label="训练用的Epoch">
-            <el-select
-              v-model="sizeForm.youhua"
-              placeholder="请选择Epoch"
-            >
+            <el-select v-model="sizeForm.youhua" placeholder="请选择Epoch">
               <el-option
                 v-for="item in epochs"
                 :key="item.value"
@@ -59,10 +50,7 @@
         </div>
         <div class="inline">
           <el-form-item label="使用GPU数量">
-            <el-select
-              v-model="sizeForm.youhua"
-              placeholder="请选择GPU数量"
-            >
+            <el-select v-model="sizeForm.youhua" placeholder="请选择GPU数量">
               <el-option
                 v-for="item in gpus"
                 :key="item.value"
@@ -74,18 +62,12 @@
           </el-form-item>
         </div>
         <div class="start-btn">
-          <el-button
-            type="primary"
-            @click="startTest"
-          >开始测试</el-button>
+          <el-button type="primary" @click="startTest">开始测试</el-button>
         </div>
       </el-form>
     </div>
-    <div
-      class="progress"
-      v-if="timer"
-    >
-      <span class="log-title">训练进度：</span>
+    <div class="progress" v-if="timer">
+      <span class="log-title">测试进度：</span>
       <el-progress
         :text-inside="true"
         :stroke-width="26"
@@ -93,23 +75,19 @@
         :percentage="progressValue"
       ></el-progress>
     </div>
-    <div
-      class="result"
-      v-if="showResult"
-    >
+    <div class="result" v-if="showResult">
       <span class="log-title">测试结果：</span>
       <div class="result-box">
         <div>char_recall(召回率)：0.9417</div>
         <div>char_precision(查准)：0.9304</div>
         <div>word_acc(全匹配模式):0.7134</div>
         <div>word_acc_ignore_case(忽略大小写的匹配模式):0.7134</div>
-        <div>word_acc_ignore_case_symbol(忽略大小写及符号的匹配模式):0.7325</div>
+        <div>
+          word_acc_ignore_case_symbol(忽略大小写及符号的匹配模式):0.7325
+        </div>
       </div>
     </div>
-    <div
-      class="img-list"
-      v-if="showResult"
-    >
+    <div class="img-list" v-if="showResult">
       <span class="log-title">图例：</span>
       <div class="img-split">
         <div class="img-left">
@@ -121,7 +99,7 @@
               :src="item.img"
               alt=""
               class="img-item"
-            >
+            />
           </div>
         </div>
         <div class="img-right">
@@ -133,7 +111,7 @@
               :src="item.img"
               alt=""
               class="img-item"
-            >
+            />
           </div>
         </div>
       </div>
@@ -144,7 +122,7 @@
 <script>
 export default {
   name: 'test-index',
-  data() {
+  data () {
     return {
       sizeForm: {
         usePre: '',
@@ -167,7 +145,7 @@ export default {
       showResult: false
     }
   },
-  created() {
+  created () {
     const goodimgList = require.context('../../../assets/goodcase', true, /.*/)
     const goodImgs = goodimgList.keys().map((item) => {
       return { img: require('../../../assets/goodcase' + item.substr(1)) }
@@ -182,7 +160,7 @@ export default {
     this.badImgs = badImgs
   },
   methods: {
-    startTest() {
+    startTest () {
       console.log('开始测试')
       if (!this.progressValue) {
         this.timer = setInterval(() => {
@@ -247,6 +225,7 @@ export default {
       height: 500px;
       border: 2px solid #000;
       padding: 10px;
+      padding-bottom: 0px;
       background-color: #000;
       .img-item {
         width: 100%;
@@ -254,9 +233,9 @@ export default {
         margin-bottom: 10px;
         box-shadow: 0 0 5px #ccc;
       }
-      // .img-item:hover {
-      //   box-shadow: 0 0 5px #ccc;
-      // }
+      .img-item:last-child {
+        margin-bottom: 8px;
+      }
     }
   }
 }
