@@ -199,7 +199,7 @@ export default {
     // background-image: url('https://img-blog.csdnimg.cn/img_convert/63ea90b2b970640722c2caf66d18cb5f.jpeg');
     background-size: 680px 400px;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: bottom center;
     .reas {
       margin-top: 5px;
       // width: 100%;

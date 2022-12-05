@@ -110,7 +110,7 @@
     </div>
     <div
       class="img-list"
-      v-if="showResult"
+      v-show="showResult"
     >
       <span class="log-title">图例：</span>
       <div class="img-split">
@@ -151,7 +151,7 @@ export default {
       sizeForm: {
         taskName: '',
         version: '',
-        epoch: '100',
+        epoch: 'best_epoch_47: (Acc:0.7649,Loss:0.6376)',
         batterEpoch: null,
         gpu: '2'
       },
@@ -161,7 +161,14 @@ export default {
         'OCR_印章文本识别_demo3'
       ],
       versions: ['V1', 'V2', 'V3'],
-      epochs: [''],
+      epochs: [
+        'epoch_10 :  (Acc:0.5801,Loss:0.9810)',
+        'epoch_20 :  (Acc:0.6550,Loss:0.7539)',
+        'epoch_30 :  (Acc:0.6801,Loss:0.7099)',
+        'epoch_40 :  (Acc:0.7140,Loss:0.6576)',
+        'best_epoch_47: (Acc:0.7649,Loss:0.6376)',
+        'epoch_50 :  (Acc:0.7587,Loss:0.6081)'
+      ],
       gpus: ['1', '2', '3', '4'],
       timer: '',
       progressValue: 0,
