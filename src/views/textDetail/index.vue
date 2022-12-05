@@ -27,6 +27,20 @@
       >
         <Testing></Testing>
       </el-tab-pane>
+      <el-tab-pane
+        label="部署"
+        name="deploy"
+        class="tab-pannel"
+      >
+        <Feature></Feature>
+      </el-tab-pane>
+      <el-tab-pane
+        label="推理"
+        name="tuili"
+        class="tab-pannel"
+      >
+        <Feature></Feature>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -35,12 +49,14 @@
 // import Train from './train/train.vue'
 import Train from './train/trainV.vue'
 import Testing from './testing/test-index.vue'
+import Feature from './feature/feature-index.vue'
 
 export default {
   name: 'detail-cv',
   components: {
     Train,
-    Testing
+    Testing,
+    Feature
   },
   data() {
     return {
