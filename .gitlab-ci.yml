@@ -24,6 +24,7 @@ install-staging:dep: # Jobs 表示构建工作，表示某个 Stage 里面执行
         - npm -v
         - echo "node -v"
         - node -v
+        - npm config get registry
         - echo "=====start install======"
         - npm install #安装依赖
         - echo "=====end install======"
