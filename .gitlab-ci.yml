@@ -19,7 +19,9 @@ install-staging:dep: # Jobs 表示构建工作，表示某个 Stage 里面执行
     only: # 定义了只有在被merge到了master分支上 才会执行部署脚本。
         - master
     script:
-        - echo "PATH='${PATH}'"
+        - echo "=====cat node/npm======"
+        - echo "npm -v"
+        - echo "node -v"
         - echo "=====start install======"
         - npm install #安装依赖
         - echo "=====end install======"
