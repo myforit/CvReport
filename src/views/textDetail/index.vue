@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import Train from './train/train.vue'
+// import Train from './train/train.vue'
+import Train from './train/trainV.vue'
 import Testing from './testing/test-index.vue'
 
 export default {

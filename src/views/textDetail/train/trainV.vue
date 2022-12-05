@@ -1,27 +1,74 @@
 <template>
   <div class="train-box">
     <div class="file-box">
-      <span class="file-lable">请选择数据集</span>
-      <el-select
-        v-model="dataval"
-        class="file-input"
-        placeholder="请选择数据集"
-      >
-        <el-option
-          v-for="item in datasets"
-          :key="item"
-          :label="item"
-          :value="item"
-        >
-        </el-option>
-      </el-select>
-      <el-button
-        type="primary"
-        @click="startTrain"
-        class="start-btn"
-      >
-        开始训练
-      </el-button>
+      <div class="dataset">
+        <div class="file-dataset">
+          <span class="file-lable">请选择数据集</span>
+          <div class="file-input">
+            <el-select
+              v-model="dataset"
+              class="file-input"
+              placeholder="请选择数据集"
+            >
+              <el-option
+                v-for="item in datasets"
+                :key="item"
+                :label="item"
+                :value="item"
+              >
+              </el-option>
+            </el-select>
+            <div
+              v-if="dataset"
+              class="dataset-info"
+            >
+              {{ datasetInfo[dataset] }}
+            </div>
+          </div>
+        </div>
+        <!-- 隐藏的文件选择 -->
+        <input
+          ref="file"
+          type="file"
+          style="display: none"
+          accept=".rar, .zip, .7z"
+          @change="uploadData"
+        />
+      </div>
+      <div class="modules">
+        <div class="file-modules">
+          <span class="file-lable">请选择模型</span>
+          <div class="file-input">
+            <el-select
+              v-model="moduleVal"
+              class="file-input"
+              placeholder="请选择模型"
+            >
+              <el-option
+                v-for="item in moduleArray"
+                :key="item"
+                :label="item"
+                :value="item"
+              >
+              </el-option>
+            </el-select>
+            <div
+              v-if="moduleVal"
+              class="dataset-info"
+            >
+              {{moduleInfo[moduleVal]}}
+            </div>
+          </div>
+        </div>
+        <!-- 隐藏的文件选择 -->
+        <input
+          ref="file"
+          type="file"
+          style="display: none"
+          accept=".rar, .zip, .7z"
+          @change="uploadData"
+        />
+      </div>
       <div
         class="file-tag"
         v-if="hasFile"
@@ -35,20 +82,6 @@
         </span>
       </div>
     </div>
-    <div
-      v-if="dataval"
-      class="dataset-info"
-    >
-      {{ datainfo[dataval] }}
-    </div>
-    <!-- 隐藏的文件选择 -->
-    <input
-      ref="file"
-      type="file"
-      style="display: none"
-      accept=".rar, .zip, .7z"
-      @change="uploadData"
-    />
     <!-- 高级模式 -->
     <el-collapse
       v-model="activeNames"
@@ -66,6 +99,17 @@
           label-width="150px"
           class="form-inline"
         >
+          <div class="inline">
+            <el-form-item label="使用预训练权重">
+              <el-checkbox v-model="sizeForm.usePre"></el-checkbox>
+            </el-form-item>
+            <el-form-item label="数据集分割比例">
+              <el-input
+                v-model="sizeForm.dataSplit"
+                placeholder="请输入非极大值抑制域值"
+              ></el-input>
+            </el-form-item>
+          </div>
           <div class="inline">
             <el-form-item label="总的Epoch数量">
               <el-input
@@ -128,7 +172,7 @@
       </el-collapse-item>
     </el-collapse>
     <!-- 开始训练 -->
-    <!-- <div class="start">
+    <div class="start">
       <el-button
         type="primary"
         @click="startTrain"
@@ -136,7 +180,7 @@
       >
         开始训练
       </el-button>
-    </div> -->
+    </div>
     <!-- 进度条 -->
     <div
       class="progress"
@@ -156,6 +200,7 @@
       <div
         class="log-box"
         id="logBox"
+        @mousewheel="scrollChange"
       >
       </div>
     </div>
@@ -169,25 +214,41 @@ export default {
   name: 'train-cv',
   data() {
     return {
-      dataval: '',
       activeNames: [''],
-      datasets: ['phone'],
-      datainfo: {
-        phone:
-          '本数据集是办公场景下的手机检测数据集，共标注有969张图片， 图片采用labelimg标注。'
+      dataset: '',
+      datasets: ['ICDAR 2017 RCTW', 'ICDAR 2013', 'Total-Text', 'SCUT-CTW1500'],
+      datasetInfo: {
+        'ICDAR 2017 RCTW':
+          '该数据集由Baoguang Shi等学者提出。主要是中文，共12263张图像，其中8034作为训练集，4229作为测试集。使用文本级别标注。数据集绝大多数是相机拍的自然场景，一些是屏幕截图；包含了大多数场景，如室外街道、室内场景、手机截图等等',
+        'ICDAR 2013':
+          '该数据集是OCR流程常用的benchmark，包含文字目标检测的标注及OCR识别的标注结果，其中对于文本检测任务采用水平框标注，主要是英文，文本识别部分采用单词级标注。',
+        'Total-Text':
+          '该数据集是一个OCR数据集，由 1,555 张图像组成，涵盖超过三种不同的文本方向（水平、多方向和弯曲），可用于解决任意形状文本识别相关问题。其中，训练集包含 1,255 张图像，测试集包含 300 张图像',
+        'SCUT-CTW1500':
+          '该数据集是一个可用于识别场景中弧形文字的数据集。该数据集包括：1500 张图像（训练集 1000 张，测试集 500 张），10751 张裁剪过的包含文本的图像，其中 3,530 张图像中包含弧形不规则文本，其中大量图像中的文本是横向或方向各异的。'
+      },
+      moduleVal: '',
+      moduleArray: ['CRNN', 'SAR', 'MASTER'],
+      moduleInfo: {
+        CRNN: 'CRNN是主流的文本识别模型，可识别较长的文本序列，它利用BLSTM和CTC部件学习字符图像中的上下文关系，从而有效提升了文本识别准确率。其中模型中CNN将图像特征提取出来后采用RNN对序列进行预测，最后通过一个CTC翻译层得到最终结果。',
+        SAR: 'SAR是一种利用二维特征映射实现更稳健解码的代表性方法，特别是主要针对撞击不规则文本提出了一种新的方法。一方面，SAR在CNN编码器中采用了更强大的残差块来学习更强的图像表示。另一方面，SAR采用二维关注特征图的空间维度进行解码，在弯曲和倾斜文本中具有更强的性能。',
+        MASTER:
+          'MASTER是一种在文本识别中引入全局注意力机制的网络，有效解决了基于局部注意力机制方法的注意力问题，以此来提高模型性能和缓解注意力混淆问题。其中编码器采用基于Muti-Aspect的全局上下文注意力机制的编码器，解码器采用Transformer解码。'
       },
       sizeForm: {
-        epoch: '',
+        usePre: '',
+        dataSplit: '训练集',
+        epoch: '100',
         max: '',
-        cpu: '',
+        cpu: '2',
         youhua: '',
         rute: '',
         init: ''
       },
       youhua: [
         {
-          value: 'Sad',
-          label: 'Sad'
+          value: 'SGD',
+          label: 'SGD'
         },
         {
           value: 'Adam',
@@ -216,7 +277,8 @@ export default {
       placeFile: '请上传数据集',
       fileName: '',
       progressValue: 0,
-      timer: null
+      timer: null,
+      startScroll: true
     }
   },
   computed: {
@@ -224,11 +286,11 @@ export default {
       return this.fileName !== ''
     }
   },
-  async created() {
-    // const res = await this.$axios.get('/dataset')
-    // console.log('res----', res.data.data)
-    this.datasets = ['phone']
-  },
+  // async created() {
+  //   const res = await this.$axios.get('/dataset')
+  //   console.log('res----', res.data.data)
+  //   this.datasets = res.data.data
+  // },
   methods: {
     selectFile() {
       console.log('选择文件')
@@ -244,8 +306,16 @@ export default {
     onSubmit() {
       console.log('submit!')
     },
-    startTrain() {
+    startTrain(e) {
       console.log('开始训练')
+      let target = e.target
+      if (target.nodeName === 'SPAN') {
+        target = e.target.parentNode
+      }
+      target.blur()
+      if (!this.timer) {
+        this.readLog()
+      }
       if (!this.progressValue) {
         this.timer = setInterval(() => {
           let progressValue = this.progressValue + 0.01
@@ -255,7 +325,6 @@ export default {
           }
         }, 1000)
       }
-      this.readLog()
     },
     uploadData(e) {
       // var e = window.event || e // change事件获取到的数据
@@ -274,17 +343,32 @@ export default {
     },
     async readLog() {
       const logBox = document.getElementById('logBox')
+      // 鼠标移上
+      logBox.onmouseover = () => {
+        console.log('onmouse over')
+      }
+      // 鼠标移出
+      logBox.onmouseleave = () => {
+        console.log('onmouse leave')
+        this.startScroll = true
+      }
       console.log('开始读取日志内容--', logBox)
-      const res = await fileToBlob('./train.txt')
+      const res = await fileToBlob('./train_del.txt')
       const logList = res.split('\n')
       for (let index = 0; index < logList.length; index++) {
         // 滚动到盒子底部
-        if (logBox.scrollHeight > logBox.clientHeight) {
+        if (this.startScroll && logBox.scrollHeight > logBox.clientHeight) {
           setTimeout(() => {
             logBox.scrollTop = logBox.scrollHeight
           }, 0)
         }
         const logStr = await this.sleepFun(logList[index])
+        // let today = new Date()
+        //日期+时间的正则表达式
+        // logStr.replace(
+        //   /[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d/g,
+        //   '8888888888888888888888888'
+        // )
         const subDiv = document.createElement('div')
         subDiv.innerText = logStr
         logBox.append(subDiv)
@@ -294,8 +378,12 @@ export default {
       return new Promise((res) => {
         return setTimeout(() => {
           res(logStr)
-        }, 1000)
+        }, 100)
       })
+    },
+    scrollChange() {
+      console.log('日志滚动到底部')
+      this.startScroll = false
     }
   }
 }
@@ -316,12 +404,39 @@ export default {
   }
   .file-box {
     position: relative;
-    display: flex;
-    align-items: center;
+    // display: flex;
+    // align-items: flex-start;
+    .dataset,
+    .modules {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-bottom: 16px;
+    }
     .file-lable {
       font-size: 16px;
       margin-right: 10px;
+      margin-top: 8px;
       min-width: 100px;
+      text-align: left;
+    }
+    .file-dataset,
+    .file-modules {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+    }
+    .dataset-info {
+      width: 100%;
+      padding: 5px;
+      height: 50px;
+      margin-top: 5px;
+      margin-right: 10px;
+      color: #a0a0a0;
+      border: 1px solid #bbb;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .file-tag {
@@ -331,17 +446,8 @@ export default {
   }
   .file-input {
     // cursor: pointer;
-    width: 80%;
+    width: 100%;
     margin-right: 10px;
-  }
-
-  .dataset-info {
-    padding: 10px;
-    height: 60px;
-    margin-top: 5px;
-    margin-right: 10px;
-    color: #a0a0a0;
-    border: 1px solid #bbb;
   }
 
   /deep/ .el-input__inner {
@@ -349,7 +455,7 @@ export default {
   }
   .start {
     margin: 20px 0;
-    float: right;
+    text-align: center;
     .start-btn {
       background-color: #409eff;
       border-color: #409eff;
@@ -397,7 +503,7 @@ export default {
     height: 500px;
     color: #fff;
     padding: 10px;
-    overflow-y: hidden;
+    overflow-y: auto;
     border-radius: 5px;
     background-color: #000;
   }

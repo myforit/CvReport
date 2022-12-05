@@ -10,23 +10,29 @@
       >
         <div class="inline">
           <el-form-item label="任务名称">
-            <el-select v-model="sizeForm.youhua" placeholder="请选择任务名称">
+            <el-select
+              v-model="sizeForm.taskName"
+              placeholder="请选择任务名称"
+            >
               <el-option
                 v-for="item in taskNames"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item"
+                :label="item"
+                :value="item"
               >
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="版本号">
-            <el-select v-model="sizeForm.youhua" placeholder="请选择版本号">
+            <el-select
+              v-model="sizeForm.version"
+              placeholder="请选择版本号"
+            >
               <el-option
                 v-for="item in versions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item"
+                :label="item"
+                :value="item"
               >
               </el-option>
             </el-select>
@@ -34,39 +40,51 @@
         </div>
         <div class="inline">
           <el-form-item label="训练用的Epoch">
-            <el-select v-model="sizeForm.youhua" placeholder="请选择Epoch">
+            <el-select
+              v-model="sizeForm.epoch"
+              placeholder="请选择Epoch"
+            >
               <el-option
                 v-for="item in epochs"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item"
+                :label="item"
+                :value="item"
               >
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="启用最佳Epoch">
-            <el-checkbox v-model="sizeForm.usePre"></el-checkbox>
+            <el-checkbox v-model="sizeForm.batterEpoch"></el-checkbox>
           </el-form-item>
         </div>
         <div class="inline">
           <el-form-item label="使用GPU数量">
-            <el-select v-model="sizeForm.youhua" placeholder="请选择GPU数量">
+            <el-select
+              v-model="sizeForm.gpu"
+              placeholder="请选择GPU数量"
+            >
               <el-option
                 v-for="item in gpus"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item"
+                :label="item"
+                :value="item"
               >
               </el-option>
             </el-select>
           </el-form-item>
         </div>
         <div class="start-btn">
-          <el-button type="primary" @click="startTest">开始测试</el-button>
+          <el-button
+            type="primary"
+            @click="startTest"
+          >开始测试</el-button>
         </div>
       </el-form>
     </div>
-    <div class="progress" v-if="timer">
+    <div
+      class="progress"
+      v-if="timer"
+    >
       <span class="log-title">测试进度：</span>
       <el-progress
         :text-inside="true"
@@ -75,7 +93,10 @@
         :percentage="progressValue"
       ></el-progress>
     </div>
-    <div class="result" v-if="showResult">
+    <div
+      class="result"
+      v-if="showResult"
+    >
       <span class="log-title">测试结果：</span>
       <div class="result-box">
         <div>char_recall(召回率)：0.9417</div>
@@ -87,11 +108,14 @@
         </div>
       </div>
     </div>
-    <div class="img-list" v-if="showResult">
+    <div
+      class="img-list"
+      v-if="showResult"
+    >
       <span class="log-title">图例：</span>
       <div class="img-split">
         <div class="img-left">
-          <span class="log-title">Good Case</span>
+          <span class="case">Good Case</span>
           <div class="img-box">
             <img
               v-for="(item, index) in goodImgs"
@@ -103,7 +127,7 @@
           </div>
         </div>
         <div class="img-right">
-          <span class="log-title">Bad Case</span>
+          <span class="case">Bad Case</span>
           <div class="img-box">
             <img
               v-for="(item, index) in badImgs"
@@ -122,22 +146,23 @@
 <script>
 export default {
   name: 'test-index',
-  data () {
+  data() {
     return {
       sizeForm: {
-        usePre: '',
-        dataSplit: '训练集',
+        taskName: '',
+        version: '',
         epoch: '100',
-        max: '',
-        cpu: '2',
-        youhua: '',
-        rute: '',
-        init: ''
+        batterEpoch: null,
+        gpu: '2'
       },
-      taskNames: [''],
-      versions: [''],
+      taskNames: [
+        'OCR_印章文本识别_demo1',
+        'OCR_印章文本识别_demo2',
+        'OCR_印章文本识别_demo3'
+      ],
+      versions: ['V1', 'V2', 'V3'],
       epochs: [''],
-      gpus: [''],
+      gpus: ['1', '2', '3', '4'],
       timer: '',
       progressValue: 0,
       goodImgs: [],
@@ -145,33 +170,38 @@ export default {
       showResult: false
     }
   },
-  created () {
+  created() {
     const goodimgList = require.context('../../../assets/goodcase', true, /.*/)
-    const goodImgs = goodimgList.keys().map((item) => {
+    this.goodImgs = goodimgList.keys().map((item) => {
       return { img: require('../../../assets/goodcase' + item.substr(1)) }
     })
-    console.log('goodImgs-----', goodImgs)
-    this.goodImgs = goodImgs
     const badimgList = require.context('../../../assets/badcase', true, /.*/)
-    const badImgs = badimgList.keys().map((item) => {
+    this.badImgs = badimgList.keys().map((item) => {
       return { img: require('../../../assets/badcase' + item.substr(1)) }
     })
-    console.log('badImgs-----', badImgs)
-    this.badImgs = badImgs
   },
   methods: {
-    startTest () {
+    startTest(e) {
       console.log('开始测试')
+      let target = e.target
+      if (target.nodeName === 'SPAN') {
+        target = e.target.parentNode
+      }
+      target.blur()
       if (!this.progressValue) {
         this.timer = setInterval(() => {
           let progressValue = this.progressValue + 1
           this.progressValue = +progressValue.toFixed(2)
           if (this.progressValue >= 100) {
-            // 展示结果
-            this.showResult = true
             clearInterval(this.timer)
+            setTimeout(
+              () =>
+                // 展示结果
+                (this.showResult = true),
+              1000
+            )
           }
-        }, 100)
+        }, 200)
       }
     }
   }
