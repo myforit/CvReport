@@ -1,6 +1,18 @@
 <template>
   <div class="train-box">
     <div class="file-box">
+      <div class="file-inline">
+        <span class="file-lable">请输入任务名称</span>
+        <el-input
+          v-model="sizeForm.taskName"
+          placeholder="请输入任务名称"
+        ></el-input>
+        <span class="version-lable">版本号</span>
+        <el-input
+          v-model="sizeForm.version"
+          placeholder="请输入版本号"
+        ></el-input>
+      </div>
       <div class="dataset">
         <div class="file-dataset">
           <span class="file-lable">请选择数据集</span>
@@ -236,6 +248,8 @@ export default {
           'MASTER是一种在文本识别中引入全局注意力机制的网络，有效解决了基于局部注意力机制方法的注意力问题，以此来提高模型性能和缓解注意力混淆问题。其中编码器采用基于Muti-Aspect的全局上下文注意力机制的编码器，解码器采用Transformer解码。'
       },
       sizeForm: {
+        taskName: '',
+        version: '',
         usePre: '',
         dataSplit: '训练集',
         epoch: '100',
@@ -404,8 +418,24 @@ export default {
   }
   .file-box {
     position: relative;
-    // display: flex;
-    // align-items: flex-start;
+    .file-inline {
+      display: flex;
+      margin-bottom: 16px;
+      .file-lable {
+        font-size: 16px;
+        margin-right: 10px;
+        margin-top: 8px;
+        min-width: 120px;
+        text-align: left;
+      }
+      .version-lable {
+        font-size: 16px;
+        margin-right: 10px;
+        margin-top: 8px;
+        min-width: 120px;
+        text-align: right;
+      }
+    }
     .dataset,
     .modules {
       width: 100%;
@@ -418,7 +448,7 @@ export default {
       font-size: 16px;
       margin-right: 10px;
       margin-top: 8px;
-      min-width: 100px;
+      min-width: 120px;
       text-align: left;
     }
     .file-dataset,

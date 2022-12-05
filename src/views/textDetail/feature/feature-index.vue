@@ -1,6 +1,6 @@
 <template>
   <div class="feature">
-    <h2>待开发...</h2>
+    <h2>前端待开发...</h2>
   </div>
 </template>
 
