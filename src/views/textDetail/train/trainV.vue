@@ -367,7 +367,7 @@ export default {
         this.startScroll = true
       }
       console.log('开始读取日志内容--', logBox)
-      const res = await fileToBlob('./train_del.txt')
+      const res = await fileToBlob('./text_log.txt')
       const logList = res.split('\n')
       for (let index = 0; index < logList.length; index++) {
         // 滚动到盒子底部
