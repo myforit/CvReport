@@ -251,13 +251,13 @@ export default {
         taskName: '',
         version: '',
         usePre: '',
-        dataSplit: '训练集',
+        dataSplit: '训练集：验证集：测试集',
         epoch: '100',
-        max: '',
-        cpu: '2',
-        youhua: '',
-        rute: '',
-        init: ''
+        max: '0.5',
+        cpu: '4',
+        youhua: 'SGD',
+        rute: 'Step_LR',
+        init: '0.001'
       },
       youhua: [
         {
@@ -432,7 +432,7 @@ export default {
         font-size: 16px;
         margin-right: 10px;
         margin-top: 8px;
-        min-width: 120px;
+        min-width: 100px;
         text-align: right;
       }
     }
@@ -477,7 +477,7 @@ export default {
   .file-input {
     // cursor: pointer;
     width: 100%;
-    margin-right: 10px;
+    // margin-right: 10px;
   }
 
   /deep/ .el-input__inner {
