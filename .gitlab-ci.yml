@@ -13,7 +13,7 @@ cache:
 job_install:
   stage: install
   script:
-    - npm install node-sass --legacy-peer-deps --registry=http://registry.npm.taobao.org
+    - npm install npm@6.14.15 -g
     - npm install
     
 job_build:
