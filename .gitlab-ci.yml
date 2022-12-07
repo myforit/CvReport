@@ -1,9 +1,9 @@
+image: node:latest
+
 stages:
   - install
   - build
   - deploy
-
-image: node:alpine
 
 cache:
   key: nodeModules
