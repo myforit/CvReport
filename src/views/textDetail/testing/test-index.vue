@@ -53,11 +53,14 @@
               </el-option>
             </el-select>
           </el-form-item>
+<<<<<<< HEAD
           <el-form-item label="启用最佳Epoch">
             <el-checkbox v-model="sizeForm.batterEpoch"></el-checkbox>
           </el-form-item>
         </div>
         <div class="inline">
+=======
+>>>>>>> master
           <el-form-item label="使用GPU数量">
             <el-select
               v-model="sizeForm.gpu"
@@ -153,7 +156,7 @@ export default {
         version: '',
         epoch: 'best_epoch_47: (Acc:0.7649,Loss:0.6376)',
         batterEpoch: null,
-        gpu: '2'
+        gpu: '4'
       },
       taskNames: [
         'OCR_印章文本识别_demo1',

@@ -177,17 +177,17 @@ export default {
           '本数据集是办公场景下的手机检测数据集，共标注有969张图片， 图片采用labelimg标注。'
       },
       sizeForm: {
-        epoch: '',
-        max: '',
-        cpu: '',
-        youhua: '',
-        rute: '',
-        init: ''
+        epoch: '100',
+        max: '0.5',
+        cpu: '4',
+        youhua: 'SGD',
+        rute: 'Step_LR',
+        init: '0.001'
       },
       youhua: [
         {
-          value: 'Sad',
-          label: 'Sad'
+          value: 'SGD',
+          label: 'SGD'
         },
         {
           value: 'Adam',
@@ -244,8 +244,13 @@ export default {
     onSubmit() {
       console.log('submit!')
     },
-    startTrain() {
+    startTrain(e) {
       console.log('开始训练')
+      let target = e.target
+      if (target.nodeName === 'SPAN') {
+        target = e.target.parentNode
+      }
+      target.blur()
       if (!this.progressValue) {
         this.timer = setInterval(() => {
           let progressValue = this.progressValue + 0.01
@@ -294,7 +299,7 @@ export default {
       return new Promise((res) => {
         return setTimeout(() => {
           res(logStr)
-        }, 1000)
+        }, 100)
       })
     }
   }
