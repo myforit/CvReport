@@ -22,7 +22,7 @@ job_build:
   tags:
     - cvtags
   script:
-    - npm build
+    - npm run build
     - pwd
     - ls
   artifacts:
