@@ -14,3 +14,13 @@ job_install:
   stage: insatll
   script:
     - npm install
+    
+job_build:
+  stage: build
+  script:
+    - npm install
+    
+job_deploy:
+  stage: deploy
+  script:
+    - npm install
