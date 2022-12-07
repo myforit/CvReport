@@ -21,9 +21,6 @@ job_build:
     - cvtags
   script:
     - npm run build
-  artifacts:
-    paths:
-      - dist
 
 job_deploy:
   stage: deploy
