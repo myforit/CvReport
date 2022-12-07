@@ -14,7 +14,7 @@ job_install:
   tags:
     - cvtags
   rules:
-    - if:'$CI_COMMIT_TAG =~ /^dep-[0-9]+\.[0-9]+\.[0-9]+?$/'
+    - if: $CI_COMMIT_TAG
   script:
     - npm config set sass_binary_site https://npm.taobao.org/mirrors/node-sass/
     - npm install --registry=http://registry.npm.taobao.org
