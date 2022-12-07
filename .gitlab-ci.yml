@@ -18,10 +18,14 @@ job_install:
     
 job_build:
   stage: build
+  tags:
+    - cvtags
   script:
     - npm build
     
 job_deploy:
   stage: deploy
+  tags:
+    - cvtags
   script:
     - sudo cp -rf ./dist/*  /var/www/html/
