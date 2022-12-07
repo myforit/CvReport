@@ -1,4 +1,4 @@
-image: node:latest
+image: node:alpine
 
 stages:
   - install
@@ -13,6 +13,7 @@ cache:
 job_install:
   stage: install
   script:
+    - python2 --version
     - yarn
     
 job_build:
