@@ -23,6 +23,10 @@ job_build:
     - cvtags
   script:
     - npm build
+  artifacts:
+    paths:
+        - dist
+    expire_in: 2 hrs
     
 job_deploy:
   stage: deploy
