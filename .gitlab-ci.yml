@@ -33,6 +33,6 @@ job_deploy:
   tags:
     - cvtags
   only:
-    - tags
+    - /^dep-.*$/
   script:
     - sudo cp -rf ./dist/*  /var/www/html/
