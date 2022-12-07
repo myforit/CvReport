@@ -11,7 +11,7 @@ cache:
     - node_modules
 
 job_install:
-  stage: insatll
+  stage: install
   script:
     - npm install
     
