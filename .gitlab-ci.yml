@@ -15,7 +15,6 @@ job_install:
   script:
     - npm uninstall node-sass
     - npm install node-sass --registry=http://registry.npm.taobao.org
-    //前面执行过可不执行
     - npm install
     
 job_build:
