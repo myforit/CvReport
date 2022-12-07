@@ -19,9 +19,9 @@ job_install:
 job_build:
   stage: build
   script:
-    - npm install
+    - npm build
     
 job_deploy:
   stage: deploy
   script:
-    - npm install
+    - sudo cp -rf ./dist/*  /var/www/html/
