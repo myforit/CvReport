@@ -27,8 +27,8 @@ job_build:
     - ls
   artifacts:
     paths:
-      - ./dist
-    
+      - dist
+
 job_deploy:
   stage: deploy
   tags:
