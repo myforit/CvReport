@@ -13,8 +13,7 @@ cache:
 job_install:
   stage: install
   script:
-    - npm install npm@6.14.15 -g
-    - npm install
+    - yarn
     
 job_build:
   stage: build
