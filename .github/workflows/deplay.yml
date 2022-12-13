@@ -16,6 +16,9 @@ jobs:
                   node-version: 14
             - name: Install and Build # 安装依赖、打包，如果提前已打包好无需这一步
               run: |
+                  curl -sL https://deb.nodesource.com/setup_14.18.3 | sudo -E bash -
+                  apt-get update
+                  apt-get install -y nodejs
                   node -v
             - name: Deploy # 部署
               uses: JamesIves/github-pages-deploy-action@v4.3.3

@@ -53,14 +53,6 @@
               </el-option>
             </el-select>
           </el-form-item>
-<<<<<<< HEAD
-          <el-form-item label="启用最佳Epoch">
-            <el-checkbox v-model="sizeForm.batterEpoch"></el-checkbox>
-          </el-form-item>
-        </div>
-        <div class="inline">
-=======
->>>>>>> master
           <el-form-item label="使用GPU数量">
             <el-select
               v-model="sizeForm.gpu"
