@@ -12,7 +12,7 @@ jobs:
     # 任务名称
     build-and-deploy:
         # 任务运行的容器类型（虚拟机环境）
-        runs-on: node-latest
+        runs-on: ubuntu-latest
         # 任务执行的步骤
         steps:
             # 步骤名称
