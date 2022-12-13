@@ -9,16 +9,20 @@ jobs:
     build-and-deploy:
         concurrency: ci-${{ github.ref }}
         runs-on: ubuntu-latest
-          - uses: actions/checkout@v3
-          - name: Use Node.js
-            uses: actions/setup-node@v3
-            with:
-              node-version: '14.x'
-          - run: node -v
-          - run: npm install
-          - run: npm run build
-          - name: Deploy # 部署
-            uses: JamesIves/github-pages-deploy-action@v4.3.3
-            with:
-                branch: gh-pages # 部署后提交到那个分支
-                folder: dist # 这里填打包好的目录名称
+        strategy:
+            matrix:
+                node-version: [14.x]
+        steps:
+            - uses: actions/checkout@v3
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: node -v
+            - run: npm install
+            - run: npm run build
+            - name: Deploy # 部署
+              uses: JamesIves/github-pages-deploy-action@v4.3.3
+              with:
+                  branch: gh-pages # 部署后提交到那个分支
+                  folder: dist # 这里填打包好的目录名称
