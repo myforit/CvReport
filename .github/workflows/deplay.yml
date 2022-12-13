@@ -15,8 +15,6 @@ jobs:
               with:
                   node-version: 14
             - name: Install and Build # 安装依赖、打包，如果提前已打包好无需这一步
-              with:
-                  node-version: 14
               run: |
                   yarn
                   yarn build
