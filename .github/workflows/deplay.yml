@@ -9,17 +9,18 @@ jobs:
     build-and-deploy:
         concurrency: ci-${{ github.ref }}
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [14.x, 15.x]
         steps:
-            - name: Checkout # 将代码拉取到虚拟机
-              uses: actions/checkout@v3
+            - uses: actions/checkout@v3
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
               with:
-                  node-version: 14
-            - name: Install and Build # 安装依赖、打包，如果提前已打包好无需这一步
-              run: |
-                  curl -sL https://deb.nodesource.com/setup_14.18.3 | -E bash -
-                  apt-get update
-                  apt-get install -y nodejs
-                  node -v
+                  node-version: ${{ matrix.node-version }}
+            - run: node -v
+            - run: npm install
+            - run: npm run build
             - name: Deploy # 部署
               uses: JamesIves/github-pages-deploy-action@v4.3.3
               with:
