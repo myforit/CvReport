@@ -1,3 +1,4 @@
+# 发布项目到自己的服务器上的配置
 name: DeployServer
 # on 表示触发actions的条件
 on:
@@ -18,7 +19,7 @@ jobs:
                   node-version: "14.x"
             - run: npm install
             - run: npm run build
-            - name: 自动同步文件夹到我的服务器
+            - name: TranslateFile
               # uses: wangyucode/sftp-upload-action@24f8bb83383dc39bed201ee5da01475e6c38c568
               uses: wangyucode/sftp-upload-action@v1.1
               with:
@@ -28,3 +29,28 @@ jobs:
                   password: ${{ secrets.PASSWORD }} #你的nginx服务器密码
                   localDir: "dist" #你vue项目build好的文件的路径,每次服务器上会自动删除对应的文件夹后重新覆盖
                   remoteDir: ${{ secrets.SERVER_DESTINATION }} #你要把你build好的文件夹放到nginx服务器上的什么位置
+
+# # 以下以一个构建vue项目发布到githubpages上的配置
+# name: DeployGitpages
+
+# on:
+#     push:
+#         branches:
+#             - main # 这里只配置了main分支，所以只有推送main分支才会触发以下任务
+# jobs:
+#     build-and-deploy:
+#         runs-on: ubuntu-latest
+#         steps:
+#             - uses: actions/checkout@v3
+#             - name: Use Node.js
+#               uses: actions/setup-node@v3
+#               with:
+#                   node-version: "14.x"
+#             - run: node -v
+#             - run: npm install
+#             - run: npm run build
+#             - name: Deploy # 部署
+#               uses: JamesIves/github-pages-deploy-action@v4.3.3
+#               with:
+#                   branch: gh-pages # 部署后提交到那个分支
+#                   folder: dist # 这里填打包好的目录名称
