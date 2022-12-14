@@ -76,7 +76,7 @@ jobs:
                   docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
                   docker build -t cvreport-image  .
                   docker tag cvreport-image ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
-                  docker push ${{ secrets.DOCKER_REPOSITORY }}:latest
+                  docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
 
             - name: LoginServer
               uses: appleboy/ssh-action@master
@@ -87,6 +87,6 @@ jobs:
                   script: |
                       docker stop cvpod
                       docker rm cvpod
-                      docker rmi ${{ secrets.DOCKER_REPOSITORY }}:latest
-                      docker pull ${{ secrets.DOCKER_REPOSITORY }}:latest
-                      docker run -d -p 9090:80 --name cvpod ${{ secrets.DOCKER_REPOSITORY }}:latest
+                      docker rmi ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
+                      docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
+                      docker run -d -p 9090:80 --name cvpod ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
