@@ -89,4 +89,4 @@ jobs:
                       docker rm cvpod
                       docker rmi ${{ secrets.DOCKER_REPOSITORY }}:latest
                       docker pull ${{ secrets.DOCKER_REPOSITORY }}:latest
-                      docker run -d -p 10001:80 --name cvpod ${{ secrets.DOCKER_REPOSITORY }}:latest
+                      docker run -d -p 9090:80 --name cvpod ${{ secrets.DOCKER_REPOSITORY }}:latest
