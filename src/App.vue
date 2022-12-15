@@ -11,8 +11,8 @@
           class="logo"
         />
         <span class="info">
-          <h1 class="title">1024计算机视觉开发平台</h1>
-          <span class="simple">1024精选多个应用场景，助您应用快速起步</span>
+          <h1 class="title">计算机视觉开发平台-1024小神</h1>
+          <span class="simple">精选多个应用场景，助您应用快速起步</span>
         </span>
       </div>
     </div>
