@@ -58,7 +58,7 @@
 # 3以下是用docker部署项目到自己的服务器的配置
 name: deplayDocker
 # 触发条件为 push
-on: [push] # 执行时机
+# on: [push] # 执行时机
 # 任务
 jobs:
     build-and-deploy:
