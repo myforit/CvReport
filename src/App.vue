@@ -6,7 +6,7 @@
     >
       <div class="massage">
         <img
-          src="https://www.datacanvas.com/img/icon/logo.svg?v2"
+          src="https://www.datacanvas.com/static/images/resource_banner_bg.jpg"
           alt=""
           class="logo"
         />
