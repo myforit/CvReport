@@ -21,15 +21,22 @@
                    node-version: "14.x"
              - run: npm install
              - run: npm run build
-             - name: TranslateFile
-               # uses: wangyucode/sftp-upload-action@24f8bb83383dc39bed201ee5da01475e6c38c568
-               uses: wangyucode/sftp-upload-action@v1.1
+
+             - run: ls -l
+             - name: scp ssh pipelines
+               uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+               env:
+                  LASTSSH: "Doing something after copying"
                with:
-                   host: ${{ secrets.SERVER_IP }} #你的nginx服务器公网ip
-                   port: ${{ secrets.SERVER_PORT }} #你的nginx服务器ssh端口
-                   username: ${{ secrets.USERNAME }} #你的nginx服务器用户名
-                   password: ${{ secrets.PASSWORD }} #你的nginx服务器密码
-                   localDir: "dist" #你vue项目build好的文件的路径,每次服务器上会自动删除对应的文件夹后重新覆盖
-                   remoteDir: ${{ secrets.SERVER_DESTINATION }} #你要把你build好的文件夹放到nginx服务器上的什么位置
+                  host: ${{ secrets.SERVER_IP }}
+                  user: ${{ secrets.USERNAME }}
+                  pass: ${{ secrets.PASSWORD }}
+              scp: |
+                  ./dist/* => /var/www/html
+               last_ssh: |
+                    echo $LASTSSH 
+                    nginx -t
+                    nginx -s reload
+            
 
 
