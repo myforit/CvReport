@@ -26,9 +26,9 @@ jobs:
 
       - name: Deploy to Tencent Cloud
         env:
-          TENCENT_CLOUD_IP: ${{ secrets.SERVER_IP }}
-          TENCENT_CLOUD_USER: ${{ secrets.USERNAME }}
-          TENCENT_CLOUD_KEY: ${{ secrets.PASSWORD }}
+          TENCENT_CLOUD_IP: ${{ secrets.TENCENT_CLOUD_IP }}
+          TENCENT_CLOUD_USER: ${{ secrets.TENCENT_CLOUD_USER }}
+          TENCENT_CLOUD_KEY: ${{ secrets.TENCENT_CLOUD_KEY }}
           TENCENT_CLOUD_PATH: /var/www/html
         run: |
           echo "${{ secrets.TENCENT_CLOUD_KEY }}" > key.pem
