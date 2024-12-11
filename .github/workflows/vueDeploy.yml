@@ -23,9 +23,9 @@ jobs:
       with:
         node-version: 18.12
         cache: 'npm'
-    - run: npm i -g pnpm
-    - run: pnpm install
-    - run: pnpm run build
+    # - run: npm i -g pnpm
+    - run: npm install
+    - run: npm run build
     - run: ls -l
     - name: scp ssh pipelines
       uses: cross-the-world/ssh-scp-ssh-pipelines@latest
