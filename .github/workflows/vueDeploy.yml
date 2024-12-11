@@ -7,9 +7,9 @@ on:
 # 当向分支进行git push时触发该工作流
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches: [ "main1" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main1" ]
 
 jobs:
   build:
