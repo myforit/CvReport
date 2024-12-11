@@ -1,0 +1,37 @@
+name: Deploy Vue to Tencent Cloud
+
+on:
+  push:
+    branches:
+      - main  # 选择触发部署的分支
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # 选择你的 Node.js 版本
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Deploy to Tencent Cloud
+        env:
+          TENCENT_CLOUD_IP: ${{ secrets.SERVER_IP }}
+          TENCENT_CLOUD_USER: ${{ secrets.USERNAME }}
+          TENCENT_CLOUD_KEY: ${{ secrets.PASSWORD }}
+          TENCENT_CLOUD_PATH: /var/www/html
+        run: |
+          echo "${{ secrets.TENCENT_CLOUD_KEY }}" > key.pem
+          chmod 600 key.pem
+          scp -o StrictHostKeyChecking=no -i key.pem -r dist/* ${{ secrets.TENCENT_CLOUD_USER }}@${{ secrets.TENCENT_CLOUD_IP }}:${{ secrets.TENCENT_CLOUD_PATH }}
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.TENCENT_CLOUD_USER }}@${{ secrets.TENCENT_CLOUD_IP }} "cd ${{ secrets.TENCENT_CLOUD_PATH }} && npm install --production"
