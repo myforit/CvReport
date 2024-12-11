@@ -5,9 +5,9 @@
  # 当向分支进行git push时触发该工作流
      workflow_dispatch:
      push:
-         branches: [main1] #main分支在push的时候会触发
+         branches: [main] #main分支在push的时候会触发
      pull_request:
-         branches: [main1] #main分支在PR的时候会触发
+         branches: [main] #main分支在PR的时候会触发
 
  jobs:
      build:
