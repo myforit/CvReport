@@ -34,4 +34,4 @@ jobs:
           echo "${{ secrets.TENCENT_CLOUD_KEY }}" > key.pem
           chmod 600 key.pem
           scp -o StrictHostKeyChecking=no -i key.pem -r dist/* ${{ secrets.TENCENT_CLOUD_USER }}@${{ secrets.TENCENT_CLOUD_IP }}:${{ secrets.TENCENT_CLOUD_PATH }}
-          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.TENCENT_CLOUD_USER }}@${{ secrets.TENCENT_CLOUD_IP }} "cd ${{ secrets.TENCENT_CLOUD_PATH }} && npm install --production"
+          #ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.TENCENT_CLOUD_USER }}@${{ secrets.TENCENT_CLOUD_IP }} "cd ${{ secrets.TENCENT_CLOUD_PATH }} && npm install --production"
